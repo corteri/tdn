@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>
+        Upload Data
+    </title>
+      <!--Responsive Meta Tag-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <!--Import jQuery Library-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <!--Import materialize.js-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+</head>
+
+<body>
+    <ul class="collection">
+        <ul class="collection with-header">
+            <li class="collection-header"><h5 style="font-family: monospace;">Profile Edit</h5></li>
+            <li class="collection-item"><div><form id="form">Profile: <input type="file" placeholder="profile" id="inputFile" name="inputFile"/><a href="#!" class="secondary-content"><input type="submit"/></form></a></div></li>
+            <li class="collection-item"><div>#loveyou<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+            <li class="collection-item"><div>#wantstobuildLegacy<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+            <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+            <li class="collection-item">Cover:<input type="file" placeholder="profile" id="inputFile1" name="inputFile"/><a href="#!" class="secondary-content"><input type="submit" onclick="fuck()"/></a></div></li>
+          </ul>
+    </ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js" integrity="sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+            const form = document.querySelector("form");
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                let data = new FormData(form);
+                data.append("token",document.cookie)
+                console.log(data);
+                axios({
+                    method: "post",
+                    url: "http://localhost:5555/profile/profile_upload",
+                    data: data,
+                })
+                    .then((res) => {
+                        console.log(res.data);
+                        if(res.data.response==="1")
+                        {
+                            alert("Done")
+                        }
+                        else
+                        {
+                            alert("Failed")
+                        }
+                    })
+                    .catch((err) => {
+                        throw err;
+                    });
+            });
+            const click = document.getElementById("clickdata");
+            function fuck()
+            {
+                let data1 = new FormData();
+            const image = document.getElementById("inputFile1");
+                data1.append("token",document.cookie)
+                data1.append("inputFile",image.files[0]);
+                console.log(data1);
+                console.log(image.files[0])
+                axios({
+                    method: "post",
+                    url: "http://localhost:5555/profile/cover_upload",
+                    data: data1,
+                })
+                    .then((res) => {
+                        console.log(res.data)
+                        if(res.data.response==="1")
+                        {
+                            alert("Done")
+                        }
+                        else
+                        {
+                            alert("Failed")
+                        }
+                    })
+                    .catch((err) => {
+                        throw err;
+                    });
+
+            }
+    </script>
+</body>
+</html>

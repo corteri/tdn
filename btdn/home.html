@@ -1,0 +1,183 @@
+<html>
+    <head>
+        <title>
+            Followers || Following
+        </title>
+        <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <style>
+        html,
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #404040;
+  background-color: #fff;
+}
+
+  .container {
+  width: 800px;
+  margin-top: 20px;
+}
+
+.button-group {
+  margin-bottom: 20px;
+}
+
+.counter {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 10px;
+}
+
+.posts {
+  clear: both;
+  list-style: none;
+  padding-left: 0;
+  width: 100%;
+}
+
+.posts li {
+  background-color: #fff;
+  border: 1px solid #d8d8d8;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  min-height: 42px;
+}
+    </style>
+    <body>
+        <nav>
+            <div class="nav-wrapper white">
+              <a href="#!" class="brand-logo" style="color:black;margin-left: 5px;">Piko</a>
+              <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+              <ul class="right hide-on-med-and-down">
+                <li><a href="main.html"><i class="material-icons" style="color:black;">home</i></a></li>
+                <li><a href="badges.html"><i class="material-icons" style="color:black;">explore</i></a></li>
+                <li><a href="collapsible.html"><i class="material-icons" style="color:black;">add_box</i></a></li>
+                <li><a href="mobile.html"><i class="material-icons" style="color:black">notifications</i></a></li>
+                <li><a href="profile.html"><i class="material-icons" style="color:black">person</i></a></li>
+              </ul>
+            </div>
+          </nav>
+          <ul class="sidenav" id="mobile-demo">
+            <li><a href="main.html"><i class="material-icons" style="color:black;">home</i></a></li>
+            <li><a href="badges.html"><i class="material-icons" style="color:black;">explore</i></a></li>
+            <li><a href="collapsible.html"><i class="material-icons" style="color:black;">add_box</i></a></li>
+            <li><a href="mobile.html"><i class="material-icons" style="color:black">notifications</i></a></li>
+            <li><a href="profile.html"><i class="material-icons" style="color:black">person</i></a></li>
+          </ul>
+<div class="container">
+
+  <ul class="collection">
+    <div id="newfollower"></div>
+    <li class="collection-item avatar">
+      <img src="https://picsum.photos/60" alt="" class="circle">
+      <span class="title">Aaditya Srivastava</span>
+      <p>@corteri <br>
+         Enterprenuer
+      </p>
+      <a href="#!" class="secondary-content"><button class="btn red" style="border-radius: 40px;">Follow</button></a>
+    </li>
+
+  </ul>
+  </div>
+  <script type = "text/javascript"
+  src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+</script>
+   <script  language="JavaScript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js" integrity="sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    function getAlldata()
+    {
+      let c = "";
+      axios.post("http://localhost:5555/getSomeUser",{token:document.cookie}).then((response)=>
+      {
+        console.log(response);
+        if(response.data.response==="1")
+        {
+          axios.post("http://localhost:5555/getAllProfile",{token:document.cookie}).then((response1)=>
+          {
+            let div = document.createElement("div")
+                div.className="container";
+                let ul = document.createElement("ul")
+                ul.className="collection";
+            response.data.data.forEach(element => {
+             // response1.data.forEach(element1=>
+              //{
+               // console.log(element[3]+"===="+element1[0]);
+                //if(element[3]===element1[0])
+                //{
+                 // console.log(element[3]+"this is okay"+element1[0])
+
+                //}
+                let hello = `onclick="lullu(${element[0]});"`;
+                let btn = document.createElement("button")
+
+
+                btn.setAttribute("class","btn red")
+                btn.innerHTML='Follow'
+                btn.style="border-radius:40px;"
+                let li = document.createElement("li");
+                let a = document.createElement("a");
+                a.className='secondary-content';
+                a.appendChild(btn);
+                li.setAttribute("class","collection-item avatar")
+                let span = document.createElement("span")
+                span.setAttribute("class","title")
+                span.innerHTML=element[0]+" "+element[1]
+                let p = document.createElement("P")
+                p.innerHTML= element[2]
+                li.appendChild(p)
+                li.appendChild(span)
+              li.appendChild(a)
+              ul.appendChild(li);
+              div.appendChild(ul)
+              document.body.appendChild(div);
+              btn.onclick=(e)=>
+              {
+                axios.post("http://localhost:5555/profile/insert_follower",{token:document.cookie,fid:element[3]}).then((response)=>
+                {
+                  console.log(response)
+                  if(response.data.response==="1")
+                  {
+                    alert("Okay Followed");
+                  }
+                }).catch((err)=>
+                {
+                  if(err)
+                  {
+                    throw err;
+                  }
+                })
+              }
+                //c = c+` </li>
+    //<li class="collection-item avatar">
+     // <img src="https://picsum.photos/60" alt="" class="circle">
+      //<span class="title">${element[0]+" "+element[1]}</span>
+      //<p>${element[2]} <br>
+       //  Enterprenuer
+      //</p>
+      //<a href="#!" class="secondary-content"><button class="btn red" ${hello} style="border-radius: 40px;">Follow</button></a>
+    //</li>`
+              })
+              //document.getElementById("newfollower").innerHTML=c;
+            });
+          }});
+        }
+
+    getAlldata();
+
+    function lullu(data)
+    {
+      alert(data);
+    }
+  </script>
+  </body>
+  </html>

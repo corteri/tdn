@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile Page</title>
+  <!--Responsive Meta Tag-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <!--Import jQuery Library-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <!--Import materialize.js-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js" integrity="sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==" crossorigin="anonymous"></script>
+
+  <style type="text/css">
+	  .Pad_top{ padding-top:25px;}
+	   header, main, footer {
+		  padding-left: 300px;
+	   }
+
+	   @media only screen and (max-width : 992px) {
+		  header, main, footer {
+			padding-left: 0;
+		  }
+	   }
+  </style>
+  <script>
+          const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const fid = urlParams.get("fid");
+            const status = urlParams.get("status");
+            const name = urlParams.get("name");
+  </script>
+</head>
+<body>
+
+<div class="row">
+    <!-- Modal Trigger-->
+<!-- Modal Structure -->
+
+    <div class="col m2 l2">
+    <div class="container">
+       <ul id="slide-out" class="side-nav fixed" style="width:260px;">
+          <div class="user-view">
+              <center>
+              <img src="./assets/logo.gif" class="img-responsive circle" style="height:80px;width:80px;"/>
+          </center></div>
+        <li><a class="waves-effect" href="feed.html"><i class="material-icons">home</i>Feeds</a></li>
+        <li><a class="waves-effect" href="trending.html"><i class="material-icons">trending_up</i>Trending</a></li>
+        <li><a class="waves-effect" href="#!"><i class="material-icons">explorer</i>Explore</a></li>
+        <li><a class="waves-effect" href="add.html"><i class="material-icons">add</i>Add</a></li>
+        <li><a class="waves-effect" href="notification.html"><i class="material-icons">notifications</i>Notifications</a></li>
+        <li><a class="waves-effect" href="mentions.html"><i class="material-icons">notifications</i>Mentions</a></li>
+
+
+        <li><a class="waves-effect" href="profile1.html"><i class="material-icons">person</i>Profile</a></li>
+        <div class="user-view">
+            <center>
+        <button class="btn black" style="border-radius:40px;">PEEKO</button>
+</center></div>
+      </ul>
+      <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+</div>
+<div class="col m10 s10 l10">
+    <nav class="white">
+        <div class="nav-wrapper">
+          <a  class=" brand-logo" style="font-family: monospace; color:black; position: relative; left:15px;">Profile</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+          </ul>
+        </div>
+      </nav>
+<div class="card medium responsive" style="position: relative; bottom:10px;" id="card">
+    <img src="./assets/giphy.gif" style="width:1400px;height:400px;object-fit: cover;"/>
+</div>
+
+<div class="card responsive" style="position:relative;width:300px;height:.00001px; bottom: 380px;">
+<div class="card-content">
+    <center>
+        <a class="modal-trigger" id="profile" href="#modal_box"> <img src="./assets/logo.gif" alt="" style="height:150px;width:150px;" class="circle responsive-img"/></a>
+        <br>
+        <div class="column">
+        <h5 style="color: white;" id="name">Aaditya Srivastava</h5><p style="color:grey" id="username"></p></div>
+        <div id = "button"></div><!--<button class="btn black">Follow</button>
+        --></center>
+        <br>
+        <script>
+            let btn1 = document.createElement("button");
+            btn1.className="btn black";
+            let url = ""
+            if(status==="1"||status==="3")
+            {
+                btn1.innerHTML="Unfollow";
+                url ="http://localhost:5555/profile/unfollow";
+
+            }
+            else if(status==="2")
+            {
+                btn1.innerHTML="Follow Back";
+                url ="http://localhost:5555/profile/bothFriend";
+            }
+            else if(status==="0")
+            {
+                axios.post("http://localhost:5555/profile/checkFriend",{token:document.cookie,fid:fid}).then((response)=>
+                {
+                    console.log(response);
+                    if(response.data.response==="1")
+                    {
+                        if(!response.data.data[0])
+                        {
+                            btn1.innerHTML="Follow";
+                            url ="http://localhost:5555/profile/insert_follower";
+
+                        }
+                        else if(response.data.data[1]==="1"||response.data.data[1]==="3")
+                        {
+                            btn1.innerHTML="Unfollow";
+                            url ="http://localhost:5555/profile/unfollow";
+                        }
+                        else if(response.data.data[1]==="2")
+                         {
+                           btn1.innerHTML="Follow Back";
+                            url ="http://localhost:5555/profile/bothFriend";
+                          }
+
+                    }
+                    else
+                    {
+                        console.log(response);
+                    }
+
+                }).catch((err)=>
+                {
+                    if(err)
+                    {
+                        throw err;
+                    }
+                })
+
+            }
+            btn1.onclick =((e)=>
+            {
+                btn1.className="btn disable";
+                e.preventDefault();
+                axios.post(url,{token:document.cookie,fid:fid}).then((response)=>
+                {
+                    if(response.data.response==="1")
+                    {
+                        if(status==="1"|| status==="3")
+                        {
+                            btn1.innerHTML="Follow";
+                        }
+                        else if(status==="2")
+                        {
+                            btn1.innerHTML="Unfollow";
+                        }
+                        else if(status==="0")
+                        {
+                            btn1.innerHTML="Unfollow"
+                        }
+                    }
+
+                }).catch((err)=>
+                {
+                    throw err;
+                })
+            })
+            document.getElementById("button").append(btn1);
+        </script>
+        <div class="row">
+            <div class="column">
+             <a  onclick="followerurl()"><p style="position:absolute;right:220px;font-size:18px;font-family: roboto;color: white;">Follower</p></a>
+                <p style="position:absolute;left:225px;font-size:18px; font-family:roboto;color: white;">PEEKO</p>
+                <a  onclick="followingurl()"><p style="position:absolute;left:110px;font-size:18px; font-family:roboto;color: white;">Following</p></a>
+            </div>
+            <script>
+                function followerurl()
+                {
+                    window.location.href=`listing.html?type=follower&fid=${fid}`
+                }
+                function followingurl()
+                {
+                    window.location.href=`listing.html?type=following&fid=${fid}`
+
+                }
+            </script>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <p style="position:absolute;right:245px;font-size:20px;font-family: roboto;color: white;" id="follower">111</p>
+                    <p style="position:absolute;left:230px;font-size:20px; font-family:roboto;color: white;" id="peeko">122</p>
+                    <p style="position:absolute;left:125px;font-size:20px; font-family:roboto;color: white;" id="following">100</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul id="tabs_swipe" class="tabs">
+        <li class="tab col"><a class="active" href="#html5" style="color:black;font-style: bold;">Peeks</a></li>
+        <li class="tab col"><a href="#css3" style="color:black;font-style: bold;">Repeeks and Mentions</a></li>
+        <li class="tab col"><a href="#md_css" style="color:black;font-style: bold;">Media</a></li>
+        <li class="tab col"><a href="#likes" style="color:black;font-style: bold;">Likes and Reply's</a></li>
+    </ul>
+
+    <div id="html5" class="col s6">
+<div id="peeks">
+
+</div>
+</center>
+    <div id="css3">
+        <div id="repeek"></div>
+    </div>
+    <div id="md_css" class="col s12">
+        <h3>Media</h3>
+    </div>
+    <div id="likes" class="col s12">
+        <h3>Likes and Reply's</h3>
+    </div>
+</div>
+<div class="col s6 m6 l6">
+    <ul class="collection">
+        <ul class="collection with-header">
+            <li class="collection-header" id="trendingh"><h4 style="font-family: monospace;">Trending Hashtags</h4></li>
+           <!-- <li class="collection-item"><div>#cancelboardexam2021<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+            <li class="collection-item"><div>#loveyou<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+            <li class="collection-item"><div>#wantstobuildLegacy<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+            <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+           --></ul>
+    </ul>
+    <br>
+        <ul class="collection">
+            <ul class="collection with-header">
+                <li class="collection-header"><h4 style="font-family: monospace;">Trending Topics</h4></li>
+                <li class="collection-item"><div>#cancelboardexam2021<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+                <li class="collection-item"><div>#loveyou<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+                <li class="collection-item"><div>#wantstobuildLegacy<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+                <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">add</i></a></div></li>
+              </ul>
+        </ul>
+
+</div>
+</div>
+<!-- Start Swipable Tabs -->
+<script type="text/javascript">
+if ($('#tabs_swipe').length) {
+  $('#tabs_swipe').tabs({ 'swipeable': false });
+}
+</script>
+<div id="modal_box" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the 
+         industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and 
+         scrambled it to make a type specimen book.</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-red btn">Agree</a>
+    </div>
+</div>
+</div>
+</div>
+  </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	$(".button-collapse").sideNav();
+
+const hello = async ()=>
+{
+axios.post("http://localhost:5555/profile/getProfile1",{token:document.cookie,fid:fid}).then((response)=>
+{
+console.log(response);
+if(response.data.response==="1")
+{
+  let firstname = response.data.data.firstname+" "+response.data.data.lastname
+  let username = response.data.data.username
+  let profile = response.data.data.profile
+  document.getElementById("name").innerHTML=urlParams.get("name")
+  document.getElementById("username").innerHTML=response.data.data.username
+  document.getElementById("following").innerHTML=response.data.data.following
+  document.getElementById("follower").innerHTML=response.data.data.follower
+
+  if(response.data.profile!=null)
+  {
+    document.getElementById("profile").innerHTML=`<img style="height:150px;width:150px;" src="https://ipfs.infura.io/ipfs/${response.data.data.profile}" alt="" type="file"  style="pointer-events: visibleStroke;" class=" circle img-responsive">`
+  }
+  if(response.data.cover!=null)
+  {
+document.getElementById("card").innerHTML = `<img src="https://ipfs.infura.io/ipfs/${response.data.data.cover}" style="width:1400px;height:400px;object-fit: cover;"/>
+  `;}
+  love(name,response.data.lastname,username,response.data.data.profile);
+  repeek(name,response.data.lastname,username,response.data.data.profile);
+
+}
+
+}).catch((err)=>
+{
+if(err)
+{
+  throw err;
+}
+
+})
+}
+hello();
+</script>
+<Script>
+  axios.post("http://localhost:5555/do/hashtags",{token:document.cookie}).then((response)=>
+  {
+    console.log(response)
+    if(response.data.response==="1")
+    {
+      console.log(response.data.data)
+      response.data.data.forEach(element => {
+        console.log("why")
+        let li = document.createElement("li");
+         li.className="collection-item";
+         let div = document.createElement("div");
+         let a = document.createElement("a");
+         let span = document.createElement("span");
+         span.innerHTML=element[1];
+         a.className="secondary-content";
+         let i = document.createElement("i");
+         i.className = "material-icons";
+         i.innerHTML="add";
+         li.appendChild(div);
+         div.appendChild(span);
+         div.appendChild(a);
+         a.appendChild(i);
+  li.onclick = ((e)=>
+  {
+    window.location.href=`http://localhost:5500/tweets.html?tid=${element[1].replace('#','')}`;
+  })
+  document.getElementById("trendingh").append(li);
+      });
+    }
+    else
+    {
+      console.log("OH SORRY");
+    }
+  })
+  </script>
+  <script>
+    function love(firstname,lastname,username,profile)
+    {
+        axios.post("http://localhost:5555/do/getTweet1",{token:document.cookie,fid:fid}).then((response)=>
+        {
+          console.log(response.data)
+          if(response.data.response==="1")
+          {
+            document.getElementById("peeko").innerHTML=response.data.data.length;
+            response.data.data.forEach(element => {
+    let col = document.createElement("div")
+    let col1 = document.createElement("div")
+    let col2 = document.createElement("div")
+    let col3 = document.createElement("div")
+    let column = document.createElement("div")
+    let column1 = document.createElement("div")
+    let column2 = document.createElement("div")
+    let column3 = document.createElement("div")
+    let card = document.createElement("div")
+    let cardcontent = document.createElement("div")
+    let row = document.createElement("div")
+    let row2 = document.createElement("div")
+    let divider = document.createElement("div")
+    col.className="col s6 m6 l6";
+    col1.className="col s4 m4 l4";
+    col2.className="col s4 m4 l4";
+    col3.className="col s4 m4 l4";
+    card.className="card z-depth-5";
+    column.className="column";
+    column1.className="column";
+    column2.className="column";
+    column3.className="column";
+    cardcontent.className="card-content";
+    row.className="row";
+    row2.className="row";
+    divider.className="divider";
+    row2.style="position:relative:top:10px;"
+    card.style="width:600px;display;table;margin:0 auto;position:relative;top:15px;";
+    let img = document.createElement("img");
+    let b = document.createElement("b");
+    b.innerHTML=firstname
+    let p = document.createElement("p");
+    p.innerHTML = element[0];
+    let p1 = document.createElement("p");
+    p1.innerHTML=element[9] //like
+    p1.style="position:relative;bottom:30px;left:30px;"
+    let p2 = document.createElement("p");
+    p2.innerHTML=element[11] //comment
+    p2.style="position:relative;bottom:30px;left:30px;"
+    let p3 = document.createElement("p");
+    p3.innerHTML=element[10] //retweet
+    p3.style="position:relative;bottom:30px;left:30px;"
+    let i1 = document.createElement("i");
+    let i2 = document.createElement("i");
+    let i3 = document.createElement("i");
+    i1.className="material-icons";
+    i1.innerHTML="thumb_up";
+    i2.className="material-icons";
+    i2.innerHTML="message";
+    i3.className="material-icons";
+    i3.innerHTML="repeat";
+    let span = document.createElement("span");
+    span.innerHTML=username //username
+    img.style="height:50px;width:50px;";
+    img.src = "https://ipfs.infura.io/ipfs/"+profile //image
+    img.className="img-responsive circle"
+    b.style="position:relative;bottom:25px;left:10px;font-size:16px;";
+    span.style="position:relative;bottom:28px;left:63px;color:grey";
+    card.appendChild(cardcontent);
+    cardcontent.appendChild(row);
+    row.appendChild(column);
+    column.appendChild(img);
+    column.appendChild(b);
+    row.appendChild(column1);
+    column1.appendChild(span);
+    row.appendChild(column2);
+    column2.appendChild(p);
+    cardcontent.appendChild(divider);
+    cardcontent.appendChild(row2);
+    row2.appendChild(column3);
+    column3.appendChild(col1);
+    col1.appendChild(i1);
+    col1.appendChild(p1);
+    column3.appendChild(col2);
+    col2.appendChild(i2);
+    col2.appendChild(p2);
+    column3.appendChild(col3);
+    col3.appendChild(i3);
+    col3.appendChild(p3);
+    i2.onclick = ((e)=>
+  {
+    window.location.href = `http://localhost:5500/reply.html?tid=${element[4]}&fid=${element[5]}`;
+  });
+  if(element[12])
+  {
+    i1.innerHTML="thumb_down";
+  }
+  else
+  {
+    i1.innerHTML="thumb_up"
+  }
+  i1.onclick = ((e)=>
+  {
+    p1.innerHTML="pending..."
+    axios.post("http://localhost:5555/do/do_like",{token:document.cookie,tid:element[4]}).then((response)=>
+    {
+      console.log(response)
+      if(response.data.response==="1")
+      {
+        if(response.data.data)
+        {
+        p1.innerHTML=element[9]+1;
+        i1.innerHTML="thumb_down";
+        }
+        else
+        {
+        p1.innerHTML=element[9]-1;
+        i1.innerHTML="thumb_up";
+
+        }
+      }
+      else
+      {
+        p1.innerHTML=element[10]-1;
+      }
+    })
+});
+
+  p.onclick = ((e)=>
+  {
+    window.location.href = `http://localhost:5500/singlefeed.html?tid=${element[4]}`;
+  });
+  i3.onclick = ((e)=>
+  {
+    axios.post("http://localhost:5555/do/doRetweet",{token:document.cookie,fid:element[5],tid:element[4]}).then((response)=>
+    {
+      console.log(response)
+      if(response.data.response==="1")
+      {
+        alert("Retweeted")
+      }
+      else
+      {
+        alert("Failed");
+      }
+    })
+  });
+//col.appendChild(card);
+document.getElementById("peeks").append(card);
+            });
+}
+});
+    }
+  </script>
+   <script>
+    function repeek(firstname,lastname,username,profile)
+    {
+        axios.post("http://localhost:5555/do/getRepeek1",{token:document.cookie,fid:fid}).then((response)=>
+        {
+          console.log(response.data)
+          if(response.data.response==="1")
+          {
+            response.data.data.forEach(element => {
+    let col = document.createElement("div")
+    let col1 = document.createElement("div")
+    let col2 = document.createElement("div")
+    let col3 = document.createElement("div")
+    let column = document.createElement("div")
+    let column1 = document.createElement("div")
+    let column2 = document.createElement("div")
+    let column3 = document.createElement("div")
+    let card = document.createElement("div")
+    let cardcontent = document.createElement("div")
+    let row = document.createElement("div")
+    let row2 = document.createElement("div")
+    let divider = document.createElement("div")
+    col.className="col s6 m6 l6";
+    col1.className="col s4 m4 l4";
+    col2.className="col s4 m4 l4";
+    col3.className="col s4 m4 l4";
+    card.className="card z-depth-5";
+    column.className="column";
+    column1.className="column";
+    column2.className="column";
+    column3.className="column";
+    cardcontent.className="card-content";
+    row.className="row";
+    row2.className="row";
+    divider.className="divider";
+    row2.style="position:relative:top:10px;"
+    card.style="width:600px;display;table;margin:0 auto;position:relative;top:15px;";
+    let img = document.createElement("img");
+    let b = document.createElement("b");
+    b.innerHTML=firstname
+    let p = document.createElement("p");
+    p.innerHTML = element[0];
+    let p1 = document.createElement("p");
+    p1.innerHTML=element[9] //like
+    p1.style="position:relative;bottom:30px;left:30px;"
+    let p2 = document.createElement("p");
+    p2.innerHTML=element[11] //comment
+    p2.style="position:relative;bottom:30px;left:30px;"
+    let p3 = document.createElement("p");
+    p3.innerHTML=element[10] //retweet
+    p3.style="position:relative;bottom:30px;left:30px;"
+    let i1 = document.createElement("i");
+    let i2 = document.createElement("i");
+    let i3 = document.createElement("i");
+    i1.className="material-icons";
+    i1.innerHTML="thumb_up";
+    i2.className="material-icons";
+    i2.innerHTML="message";
+    i3.className="material-icons";
+    i3.innerHTML="repeat";
+    let span = document.createElement("span");
+    span.innerHTML=username //username
+    img.style="height:50px;width:50px;";
+    img.src = "https://ipfs.infura.io/ipfs/"+profile //image
+    img.className="img-responsive circle"
+    b.style="position:relative;bottom:25px;left:10px;font-size:16px;";
+    span.style="position:relative;bottom:28px;left:63px;color:grey";
+    card.appendChild(cardcontent);
+    cardcontent.appendChild(row);
+    row.appendChild(column);
+    column.appendChild(img);
+    column.appendChild(b);
+    row.appendChild(column1);
+    column1.appendChild(span);
+    row.appendChild(column2);
+    column2.appendChild(p);
+    cardcontent.appendChild(divider);
+    cardcontent.appendChild(row2);
+    row2.appendChild(column3);
+    column3.appendChild(col1)
+    col1.appendChild(i1);
+    col1.appendChild(p1);
+    column3.appendChild(col2)
+    col2.appendChild(i2);
+    col2.appendChild(p2);
+    column3.appendChild(col3)
+    col3.appendChild(i3);
+    col3.appendChild(p3);
+    i2.onclick = ((e)=>
+  {
+    window.location.href = `http://localhost:5500/reply.html?tid=${element[4]}&fid=${element[5]}`;
+  });
+
+  p.onclick = ((e)=>
+  {
+    window.location.href = `http://localhost:5500/singlefeed.html?tid=${element[4]}`;
+  });
+  if(element[12])
+  {
+    i1.innerHTML="thumb_down";
+  }
+  else
+  {
+    i1.innerHTML="thumb_up"
+  }
+  i1.onclick = ((e)=>
+  {
+    p1.innerHTML="pending..."
+    axios.post("http://localhost:5555/do/do_like",{token:document.cookie,tid:element[4]}).then((response)=>
+    {
+      console.log(response)
+      if(response.data.response==="1")
+      {
+        if(response.data.data)
+        {
+        p1.innerHTML=element[9]+1;
+        i1.innerHTML="thumb_down";
+        }
+        else
+        {
+        p1.innerHTML=element[9]-1;
+        i1.innerHTML="thumb_up";
+
+        }
+      }
+      else
+      {
+        p1.innerHTML=element[10]-1;
+      }
+    })
+});
+  i3.onclick = ((e)=>
+  {
+    p3.innerHTML="pending";
+
+    axios.post("http://localhost:5555/do/doRetweet",{token:document.cookie,fid:element[5],tid:element[4]}).then((response)=>
+    {
+      if(response.data.response==="1")
+      {
+      p3.innerHTML=element[10]+1;
+      }
+      else
+      {
+      p3.innerHTML=element[10]-1;
+      }
+    })
+  });
+//col.appendChild(card);
+document.getElementById("repeek").append(card);
+            });
+}
+});
+    }
+  </script>
+</body>
+</html>

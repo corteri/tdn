@@ -1,0 +1,170 @@
+<html>
+    <head>
+        <title>
+            Registration
+        </title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        </head>
+        <body>
+<style>
+    body {
+  background: #222;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./assets/giphy.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-fill-mode: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.container {
+  background: white;
+  padding: 20px 25px;
+  opacity: 1;
+  width: 550px;
+  height: auto;
+  box-sizing: border-box;
+  position: relative;
+}
+.col.s6 > .btn {
+   width: 100%;
+}
+.gender-male,.gender-female {
+  display: inline-block;
+}
+.gender-female {
+  margin-left: 35px;
+}
+radio:required {
+  border-color: red;
+}
+.container {
+  animation: showUp 0.5s cubic-bezier(0.18, 1.3, 1, 1) forwards;
+}
+
+@keyframes showUp {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transoform: scale(1);
+  }
+}
+.row {margin-bottom: 10px;}
+
+.ngl {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+}
+
+</style>
+<center><h4 style="color:white;font-family: monospace;">Welcome To The Universe Of Interconnected Daaps</h4>
+    <center><h4 style="color:white;font-family: monospace;">The Democratic Web</h4>
+    </center>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container">
+    <div class="row">
+        <center>
+      <img class="circle responsive-img" style="height:60px;width:60px;" src="./assets/logo.gif" />
+</center>
+        <div class="col s12" id="reg-form">
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="first_name" type="text" class="validate" required>
+              <label for="first_name">First Name</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="last_name" type="text" class="validate" required>
+              <label for="last_name">Last Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="email" type="email" class="validate" required>
+              <label for="email">Email</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="password" type="password" class="validate" minlength="6" required>
+              <label for="password">Password</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="phone" type="number" class="validate" minlength="6" required>
+              <label for="phone">Phone</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="username" type="text" class="validate" minlength="6" required>
+              <label for="username">Username</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <button class="btn btn-large btn-register waves-effect waves-light black"  onclick="register();" name="action">Register
+                <i class="material-icons right">done</i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a title="Login" class="ngl btn-floating btn-large waves-effect waves-light black" href="login.html"><i class="material-icons">input</i></a>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js" integrity="sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+
+    function register()
+    {
+    let number = document.getElementById("phone").value;
+    let password = document.getElementById("password").value;
+    let firstname = document.getElementById("first_name").value;
+    let lastname = document.getElementById("last_name").value;
+    let username = document.getElementById("username").value;
+    let email = document.getElementById("email").value;
+    console.log(number+password);
+    axios.post("http://localhost:5555/register",{number:number,password:password,email:email,firstname:firstname,lastname:lastname,username:username}).then((response)=>
+    {
+        console.log(response)
+        if(response.data.response==="1")
+        {
+            alert("Registered")
+        }
+        else
+        {
+            alert("Registration Failed");
+            console.log(response);
+        }
+    }).then((err)=>
+    {
+        if(err)
+        {
+            throw err;
+        }
+    })
+    }
+    </script>
+</body>
+    </body></html>
