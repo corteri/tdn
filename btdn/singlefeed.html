@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile Page</title>
+  <!--Responsive Meta Tag-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <!--Import jQuery Library-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <!--Import materialize.js-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js" integrity="sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==" crossorigin="anonymous"></script>
+
+  <style type="text/css">
+	  .Pad_top{ padding-top:25px;}
+	   header, main, footer {
+		  padding-left: 300px;
+	   }
+
+	   @media only screen and (max-width : 992px) {
+		  header, main, footer {
+			padding-left: 0;
+		  }
+	   }
+  </style>
+</head>
+<body>
+<div class="row">
+    <div class="col m2 l2">
+    <div class="container">
+      <ul id="slide-out" class="side-nav fixed" style="width:260px;">
+          <div class="user-view">
+              <center>
+              <img src="./assets/logo.gif" class="img-responsive circle" style="height:80px;width:80px;"/>
+          </center></div>
+        <li><a class="waves-effect" href="feed.html"><i class="material-icons">home</i>Feeds</a></li>
+        <li><a class="waves-effect" href="trending.html"><i class="material-icons">trending_up</i>Trending</a></li>
+        <li><a class="waves-effect" href="#!"><i class="material-icons">explorer</i>Explore</a></li>
+        <li><a class="waves-effect" href="add.html"><i class="material-icons">add</i>Add</a></li>
+        <li><a class="waves-effect" href="notification.html"><i class="material-icons">notifications</i>Notifications</a></li>
+        <li><a class="waves-effect" href="mentions.html"><i class="material-icons">notifications</i>Mentions</a></li>
+
+
+        <li><a class="waves-effect" href="profile1.html"><i class="material-icons">person</i>Profile</a></li>
+        <div class="user-view">
+            <center>
+        <button class="btn black" style="border-radius:40px;">PEEKO</button>
+</center></div>
+      </ul>
+      <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+</div>
+<div class="col m10 s12 l10">
+    <nav class="white">
+        <div class="nav-wrapper">
+          <a  class=" brand-logo" style="font-family: monospace; color:black; position: relative; left:15px;">Peek</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+          </ul>
+        </div>
+      </nav>
+<div id="singlefeed">
+</div></div></div></body>
+<script>
+       const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const tid = urlParams.get("tid");
+        axios.post("http://localhost:5555/do/singlefeed",{token:document.cookie,tid:tid}).then((response)=>
+        {
+          console.log(response)
+          if(response.data.response==="1")
+          {
+            const element = response.data.data;
+            let col = document.createElement("div")
+    let col1 = document.createElement("div")
+    let col2 = document.createElement("div")
+    let col3 = document.createElement("div")
+    let column = document.createElement("div")
+    let column1 = document.createElement("div")
+    let column2 = document.createElement("div")
+    let column3 = document.createElement("div")
+    let card = document.createElement("div")
+    let cardcontent = document.createElement("div")
+    let row = document.createElement("div")
+    let row2 = document.createElement("div")
+    let divider = document.createElement("div")
+    col.className="col s6 m6 l6";
+    col1.className="col s4 m4 l4";
+    col2.className="col s4 m4 l4";
+    col3.className="col s4 m4 l4";
+    card.className="card z-depth-5";
+    column.className="column";
+    column1.className="column";
+    column2.className="column";
+    column3.className="column";
+    cardcontent.className="card-content";
+    row.className="row";
+    row2.className="row";
+    divider.className="divider";
+    row2.style="position:relative:top:10px;"
+    card.style="width:800px;display;table;margin:0 auto;position:relative;top:15px;";
+    let img = document.createElement("img");
+    let b = document.createElement("b");
+    b.innerHTML=element[12]+" "+element[13];
+    let p = document.createElement("p");
+    p.innerHTML = element[0];
+    let p1 = document.createElement("p");
+    p1.innerHTML=element[9] //like
+    p1.style="position:relative;bottom:30px;left:30px;"
+    let p2 = document.createElement("p");
+    p2.innerHTML=element[11] //comment
+    p2.style="position:relative;bottom:30px;left:30px;"
+    let p3 = document.createElement("p");
+    p3.innerHTML=element[10] //retweet
+    p3.style="position:relative;bottom:30px;left:30px;"
+    let i1 = document.createElement("i");
+    let i2 = document.createElement("i");
+    let i3 = document.createElement("i");
+    i1.className="material-icons";
+    i1.innerHTML="thumb_up";
+    i2.className="material-icons";
+    i2.innerHTML="reply";
+    i3.className="material-icons";
+    i3.innerHTML="repeat";
+    let span = document.createElement("span");
+    span.innerHTML=element[14] //username
+    img.style="height:50px;width:50px;";
+    img.src = "https://ipfs.infura.io/ipfs/"+element[15]; //image
+    img.className="img-responsive circle"
+    b.style="position:relative;bottom:25px;left:10px;font-size:16px;";
+    span.style="position:relative;bottom:28px;left:63px;color:grey";
+    card.appendChild(cardcontent);
+    cardcontent.appendChild(row);
+    row.appendChild(column);
+    column.appendChild(img);
+    column.appendChild(b);
+    row.appendChild(column1);
+    column1.appendChild(span);
+    row.appendChild(column2);
+    column2.appendChild(p);
+    let newelement = element[20];
+    console.log(element[20])
+    for(let i=0;i<newelement.length;i++)
+    {
+      let element91 = newelement[i];
+      console.log(element91);
+      let img1 = document.createElement("img");
+    img1.src=`https://ipfs.infura.io/ipfs/${element91}`;
+    img1.alt="";
+    img1.style=`max-width:300px;
+          max-height:300px;
+           aspect-ratio: 16/9`;
+    column2.appendChild(img1)
+    }
+    cardcontent.appendChild(divider);
+    cardcontent.appendChild(row2);
+    row2.appendChild(column3);
+    column3.appendChild(col1)
+    col1.appendChild(i1);
+    col1.appendChild(p1);
+    column3.appendChild(col2)
+    col2.appendChild(i2);
+    col2.appendChild(p2);
+    column3.appendChild(col3)
+    col3.appendChild(i3);
+    col3.appendChild(p3);
+    i2.onclick = ((e)=>
+  {
+    window.location.href = `http://localhost:5500/reply.html?tid=${element[4]}&fid=${element[5]}`;
+  });
+  if(element[18])
+  {
+    i1.innerHTML="thumb_down";
+  }
+  else
+  {
+    i1.innerHTML="thumb_up"
+  }
+  i1.onclick = ((e)=>
+  {
+    p1.innerHTML="pending..."
+    axios.post("http://localhost:5555/do/do_like",{token:document.cookie,tid:element[4]}).then((response)=>
+    {
+      console.log(response)
+      if(response.data.response==="1")
+      {
+        if(response.data.data)
+        {
+        p1.innerHTML=element[10]+1;
+        i1.innerHTML="thumb_up";
+        }
+        else
+        {
+        p1.innerHTML=element[10]-1;
+        i1.innerHTML="thumb_down";
+
+        }
+      }
+      else
+      {
+        p1.innerHTML=element[10]-1;
+      }
+    })
+  });
+  i3.onclick = ((e)=>
+  {
+    p3.innerHTML="pending"
+    axios.post("http://localhost:5555/do/doRetweet",{token:document.cookie,fid:element[5],tid:element[4]}).then((response)=>
+    {
+      console.log(response)
+      if(response.data.response==="1")
+      {
+        p3.innerHTML=element[10]+1;
+      }
+      else
+      {
+        p3.innerHTML=element[10]-1;
+      }
+    })
+  });
+//col.appendChild(card);
+document.getElementById("singlefeed").append(card);
+        axios.post("http://localhost:5555/do/getReply",{token:document.cookie,tid:tid}).then((response)=>
+        {
+            console.log(response);
+            if(response.data.response==="1")
+          {
+        response.data.data.forEach(element => {
+          let container = document.createElement("div");
+  container.className = "container";
+  let row = document.createElement("div");
+  row.className = "row";
+  let col = document.createElement("div");
+  col.className = "col s12";
+  let carddiv = document.createElement("div");
+  carddiv.className = "car"
+  carddiv.style = "";
+  let column1 = document.createElement("div")
+  let column2 = document.createElement("div")
+  let column3 = document.createElement("div")
+  let column4 = document.createElement("div")
+  column1.className = "col s6";
+  column2.className = "column s6";
+  let image = document.createElement("img");
+  image.className="circle img-responsive"
+  let p1 = document.createElement("p");
+  let p2 = document.createElement("p");
+  let p3 = document.createElement("p");
+  let p4 = document.createElement("p");
+  let p5 = document.createElement("p");
+p4.innerHTML=element[9];
+p5.innerHTML=element[11];
+
+  let i9 = document.createElement("i");
+  let i2 = document.createElement("i");
+  let i3 = document.createElement("i");
+  i9.className = "material-icons"
+  i9.style="color:black";
+  i2.className = "material-icons"
+  i2.style="color:black";
+  i3.className = "material-icons"
+  i3.style="color:black";
+  i9.innerHTML = 'thumb_up';
+  i2.innerHTML = 'reply';
+  i3.innerHTML = 'repeat';
+  i2.onclick = ((e)=>
+  {
+    window.location.href = `http://localhost:5500/reply.html?tid=${element[4]}&fid=${element[5]}`;
+  })
+  i3.onclick = ((e)=>
+  {
+    axios.post("http://localhost:5555/do/doRetweet",{token:document.cookie,fid:element[5],tid:element[4]}).then((response)=>
+    {
+      console.log(response)
+      if(response.data.response==="1")
+      {
+        alert("Retweeted")
+      }
+      else
+      {
+        alert("Failed");
+      }
+    })
+  })
+  if(element[18])
+  {
+    i9.innerHTML="thumb_down";
+  }
+  else
+  {
+    i9.innerHTML="thumb_up"
+  }
+  i9.onclick = ((e)=>
+  {
+    p4.innerHTML="pending..."
+    axios.post("http://localhost:5555/do/do_like",{token:document.cookie,tid:element[4]}).then((response)=>
+    {
+      console.log(response)
+      if(response.data.response==="1")
+      {
+        if(response.data.data)
+        {
+        p4.innerHTML=element[9]+1;
+        i9.innerHTML="thumb_down";
+        }
+        else
+        {
+        p4.innerHTML=element[9]-1;
+        i9.innerHTML="thumb_up";
+
+        }
+      }
+      else
+      {
+        p4.innerHTML=element[10]-1;
+      }
+    })
+  });
+  let b = document.createElement("b");
+  b.innerHTML=element[12]+" "+element[13];
+  b.style="position:relative;bottom:25px;left:10px;font-size:16px;";
+    p1.style="position:relative;bottom:20px;color:transparent";
+  p1.innerHTML=element[14]
+  image.style="height:50px;width:50px;"
+  image.src="https://ipfs.infura.io/ipfs/"+element[15];
+  p2.style="font-size:10";
+  p3.innerHTML=element[0]
+  p3.onclick = ((e)=>
+  {
+    window.location.href = `http://localhost:5500/singlefeed.html?tid=${element[4]}`;
+  });
+  p3.style="position:relative;right:260px;top:20px;"
+column1.appendChild(image);
+column1.appendChild(b);
+column2.appendChild(p1);
+column4.style="top:15px;position:relative;"
+let row1 = document.createElement("div");
+row1.className="row";
+row1.style="position:relative;top:20px;"
+let col1 = document.createElement("div");
+col1.className="col s6";
+
+let col2 = document.createElement("div");
+col2.className="col s6";
+
+col1.appendChild(i9);
+col2.appendChild(i2);
+col1.appendChild(p4);
+col2.appendChild(p5);
+
+
+row1.appendChild(col1);
+row1.appendChild(col2);
+
+//column4.appendChild(i1)
+//column4.appendChild(i2)
+//column4.appendChild(i3)
+carddiv.appendChild(column1);
+carddiv.appendChild(column2);
+carddiv.appendChild(p3);
+let newelement = element[20];
+    console.log(element[20])
+    for(let i=0;i<newelement.length;i++)
+    {
+      let element91 = newelement[i];
+      console.log(element91);
+      let img1 = document.createElement("img");
+    img1.src=`https://ipfs.infura.io/ipfs/${element91}`;
+    img1.alt="";
+    img1.style=`max-width:300px;
+          max-height:300px;
+           aspect-ratio: 16/9`;
+    carddiv.appendChild(img1)
+    }
+let divider1 = document.createElement("div");
+divider1.className="divider";
+divider1.style="position:relative;top:10px;"
+carddiv.appendChild(divider1);
+
+carddiv.appendChild(row1);
+container.appendChild(carddiv);
+container.appendChild(col);
+container.appendChild(row);
+container.style="position:relative;bottom:50px;"
+card.append(container)
+            });
+          }
+            else
+            {
+                console.log("Empty Data")
+
+            }
+          }).catch((err)=>
+          {
+            if(err)
+            {
+              throw err;
+            }
+          })
+        }
+      })
+/**axios.post("http://localhost:5555/do/getReply",{token:document.cookie,tid:tid}).then((response)=>
+        {
+            console.log(response);
+            if(response.data.response==="1")
+          {
+        response.data.data.forEach(element => {
+
+          let reply = document.createElement("div");
+          let rcolumn1 = document.createElement("div");
+          let rcolumn2 = document.createElement("div");
+          let rimg = document.createElement("img");
+          let rb = document.createElement("b");
+          let rp = document.createElement("p");
+          let rp1 = document.createElement("p");
+          let rp2 = document.createElement("p");
+          let ra1 = document.createElement("a");
+          let ra2 = document.createElement("a");
+          let ri1 = document.createElement("i");
+          let ri2 = document.createElement("i");
+
+
+          let rdivider = document.createElement("div");
+          let rcol1 = document.createElement("div");
+          rcol1.style="position:relative;top: 20px;"
+          let rcol2 = document.createElement("div");
+          rcol2.style="position:relative;top: 20px;"
+          reply.className="reply";
+          rcolumn1.className="column"
+          rcolumn2.className="column"
+          rdivider.className="divider"
+          rdivider.style="position: relative; top: 10px;"
+          rcol1.className = "col s6"
+          rcol2.className = "col s6"
+          ri1.className="material-icons"
+          ri2.className="material-icons"
+          ri1.innerHTML="thumb_up"
+          ri1.innerHTML="reply"
+          rp1.style="position: relative;bottom: 30px;left:30px"
+          rp2.style="position: relative;bottom: 30px;left:30px"
+          rp1.innerHTML="2" //like
+          rp2.innerHTML="2" //reply
+          rb.style="position: relative; bottom: 25px; left:10px;"
+          rimg.className="circle img-responsive"
+          rimg.style="height:50px;width:50px"
+          rimg.src="https://ipfs.infura.io/ipfs/"+element[15];
+          rb.innerHTML=element[12]+" "+element[13];
+          rcolumn1.appendChild(rimg)
+          rcolumn1.appendChild(rb)
+          reply.appendChild(rcolumn1);
+          reply.appendChild(rdivider);
+          rcolumn2.appendChild(rcol1);
+          rcol1.appendChild(ra1);
+          ra1.appendChild(ri1);
+          rcolumn2.appendChild(rcol2);
+          rcol2.appendChild(ra2);
+          ra1.appendChild(ri2);
+          reply.appendChild(rcolumn2);
+        card.appendChild(reply);
+        })
+
+      }
+    }).catch((err)=>
+    {
+      throw err;
+    })
+          }
+
+        }).catch((err)=>
+        {
+          throw err;
+        })*/
+</script>
+</html>

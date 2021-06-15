@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            news feed
+        </title>
+    </head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <body>
+        <div class="container">
+        <div class="row">
+          </div>
+           <div id="mainbody"></div>
+</div>
+<p>
+    Followers
+</p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js" integrity="sha512-otOZr2EcknK9a5aa3BbMR9XOjYKtxxscwyRHN6zmdXuRfJ5uApkHB7cz1laWk2g8RKLzV9qv/fl3RPwfCuoxHQ==" crossorigin="anonymous"></script>
+
+<script>
+    function getFriend()
+    {
+        axios.post("http://localhost:5555/profile/fetch_follower",{token:document.cookie}).then((response)=>
+        {
+            if(response.data.response==="1")
+            {
+                console.log(response)
+                const init = async()=>
+                {
+            await  response.data.data.forEach(element => {
+                    let b = document.createElement("b");
+                    b.innerHTML = element[2]+" "+element[3];
+                    document.body.appendChild(b);
+
+                });
+            }
+            init();
+
+            }
+            else
+            {
+                alert("HELLO");
+
+            }
+        })
+    }
+    getFriend();
+</script>
+    </body>
+
+    <script>
+      const token = document.cookie;
+      function follow(fid)
+      {
+          axios.post("http://localhost:5555/profile/insert_follower",{token:document.cookie,fid:fid}).then((response)=>
+          {
+              if(response.data.response==="1")
+              {
+                  console.log(response.data);
+
+              }
+              else
+              {
+                  console.log(response.data);
+                }
+          })
+
+      }
+      getdata();
+      function getdata(){
+            axios.post("http://localhost:5555/getSomeUser",{token:token}).then((response)=>
+            {
+                console.log(response.data)
+                if(response.data.response==="1")
+                {
+                    let c ="";
+                    let c1="";
+                    console.log(response.data.response);
+                    const init = async()=>
+                    {
+                 await  response.data.data.forEach(element => {
+                    let btn =  document.createElement("BUTTON");
+                    btn.innerHTML="Send Request";
+                    let p = document.createElement("P");
+                    document.body.appendChild(btn);
+                    document.body.appendChild(p);
+                    let div1 = document.createElement("DIV");
+                    div1.setAttribute('class',"card");
+                    p.innerHTML=element[0];
+                    btn.onclick=(e)=>
+                    {
+                        axios.post("http://localhost:5555/profile/insert_follower",{token:token,fid:element[3]}).then((response)=>
+                        {
+                            console.log(response);
+                            if(response.data.response==="1")
+                            {
+                                console.log(response.data);
+                                alert("Done");
+                            }
+                            else
+                            {
+                                console.log(response.data);
+                            }
+                        })
+
+                    }
+                   });
+                }
+                init();
+                }
+                else
+                {
+                    console.log(response.data.response);
+
+                }
+            }).catch((err)=>
+            {
+                throw err;
+            })
+        }
+
+    </script>
+ <script type="text/javascript" src="js/materialize.min.js"></script>
+</html>
